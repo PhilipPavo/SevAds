@@ -1,0 +1,20 @@
+<div class="form-horizontal col-xs-6 col-xs-offset-3 center" role="form">
+  <div class="form-group">
+    <input type="text" class="form-control" ng-model="data.title" placeholder="Заголовок объявления">
+  </div>
+  <div class="form-group">
+   <textarea class="form-control" rows="5" ng-model="data.text"></textarea>
+  </div>
+  <div class="form-group">
+	  <div class="dropdown" is-open="isOpen">
+			<button class="btn btn-primary btn-block btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">{{cats[data.category].title}}
+				<span class="caret"></span>
+			</button>
+			<ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
+				<li role="presentation">
+					<a role="menuitem" tabindex="-1" ng-repeat="cat in cats" ng-click="setCat($index)" href="">{{cat.title}}</a>
+				</li>
+			</ul>
+		</div>
+  </div>
+</div>

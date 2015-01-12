@@ -1,0 +1,53 @@
+body { 
+}
+.header span{
+  float: right;
+  margin: 10px 10px;
+  font-size: 12px;
+}
+.header span a{
+  text-decoration: none;
+}
+.pre-text{
+    white-space: pre-wrap;
+}
+.dropdown-menu>li>a {
+  padding: 5px 8px;
+}
+.modal-dialog{
+  margin: 80px;
+}
+.wrap{
+	display: block;
+	margin: 0 auto;
+}
+.center{
+  text-align: center;
+}
+.panel .panel-heading{
+    padding: 6px;
+    font-size: 14px;
+}
+.panel .panel-body{
+    padding: 4px;
+    font-size: 12px;
+}
+.panel .panel-footer{
+  padding: 6px 4px;
+  min-height: 40px;
+}
+.list-group a{
+    padding: 5px 7px;
+}
+.list-group-item .label{
+  float:right;
+}
+.author-name{
+  font-size: 13px;
+  margin-bottom: -2px;
+}
+.author-avatar{
+  height: 30px;
+  width: 30px;
+  margin-right: 3px;
+}
