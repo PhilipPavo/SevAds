@@ -28,6 +28,7 @@
 			"title" => "",
 			"text" => $posts[$i]['text'],
 			"category" => $category,
+			"tags"=> "[]",
 			"imported" => 1,
 			"source" => $src
 		));

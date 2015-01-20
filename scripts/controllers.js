@@ -5,64 +5,110 @@ var controllers = {
 	},
 	main: function($rootScope, $scope, AJAX, $route, $modal){
 		$scope.user = $rootScope.user;
-		$scope.current = {};
+		$scope.current = {
+		};
 		$scope.ads = [];
 		$scope.profiles = [];
+		$scope.loaded = 10;
 		$scope.cats = $rootScope.config.cats;
 		$scope.moderation = function(v){
 			$rootScope.user.moderation = v;
 		};
+		VK.addCallback('onScroll', function(scrollTop, windowHeight){
+				
+		});
 		VK.addCallback('onSettingsChanged', function(r){
 			console.log(r);
 			$scope.user.menu = !!(r & 256);
 			$scope.$apply();
 		});
+		VK.addCallback('onScroll', function(scrollTop, windowHeight){
+			if((windowHeight + scrollTop) > window.innerHeight){
+				$scope.loaded += 10;
+				$scope.$apply();
+			}
+		});
+		VK.callMethod('scrollSubscribe', false);
 		$scope.menu_add = function(){
 			VK.callMethod('showSettingsBox', 256);
 		};
+		
 		$scope.sections = [
 			{
-				title: "Все объявления",
-				items: [],
+				title: "Продам",
+				id: 'sell',
 				f: function(item){
-					return true;
+					return item.category == 'sell';
 				},
-				icon: "list-alt",
-				style: 'info'
-			},{
-				title: "Мои объявления",
-				items: [],
+				icon: 'social-usd-outline',
+				style: 'green',
+				size: 'big',
+				selected: false
+			},
+			{
+				title: "Куплю",
+				id: 'buy',
 				f: function(item){
-					if(!item.profile) return false;
-					return item.profile.id == $rootScope.user.id;
+					return item.category == 'buy';
 				},
-				icon: 'user',
-				style: 'success'
-			},{
-				title: "Мои закладки",
-				items: [],
+				icon: 'ios-cart-outline',
+				style: 'blue',
+				size: 'big',
+				selected: false
+			},
+			{
+				title: "Услуги",
+				id: 'services',
 				f: function(item){
-					return item.is_fave;
+					return item.category == 'services';
 				},
-				icon: 'star',
-				style: 'warning'
+				icon: 'android-done-all',
+				style: 'orange',
+				size: 'big',
+				selected: false
+			},
+			{
+				title: "Вакансии",
+				id: 'job',
+				f: function(item){
+					return item.category == 'job';
+				},
+				icon: 'briefcase',
+				style: 'purple',
+				size: 'medium',
+				selected: false
+			},
+			{
+				title: "Ищу ...",
+				id: 'find',
+				f: function(item){
+					return item.category == 'find';
+				},
+				icon: 'ios-search-strong',
+				style: 'red',
+				size: 'medium',
+				selected: false
+			},
+			{
+				title: "Другое",
+				id: 'other',
+				f: function(item){
+					return item.category == 'other';
+				},
+				icon: 'android-more-horizontal',
+				style: 'cyan',
+				size: 'medium',
+				selected: false
 			}
 		];
 		$scope.init = function(ads, profiles){
 			if(ads) $scope.ads = ads;
 			if(profiles) $scope.profiles = profiles;
-			for(var i = 0; i < $scope.cats.length; i++){
-				$scope.cats[i].items = [];
-			}
-			for(var i = 0; i < $scope.sections.length; i++){
-				$scope.sections[i].items = [];
-			}
-			for(var j = 0; j < $scope.ads.length; j ++){
+			$scope.current.items = [];
+			for(var j = 0; j < $scope.ads.length; j++){
 				$scope.ads[j].profile = $scope.ads[j].owner_id != 0 ? $scope.profiles['id' + $scope.ads[j].owner_id] : $scope.profiles.anonymous;
-				$scope.cats[$scope.ads[j].category].items.push($scope.ads[j]);
-				for(var i = 0; i < $scope.sections.length; i++){
-					if($scope.sections[i].f($scope.ads[j])) $scope.sections[i].items.push($scope.ads[j]);
-				}
+				if($scope.current.f($scope.ads[j]))
+					$scope.current.items.push($scope.ads[j]);
 			}
 		};
 		$scope.get = function(owner){
@@ -102,7 +148,8 @@ var controllers = {
 			VK.callMethod("scrollWindow", 0);
 			$scope.box_open('edit', {ad: ad});	
 		};
-		$scope.selectCat = function(c){
+		$scope.selectSection = function(c){
+			$scope.loaded = 10;
 			$scope.current = c;
 			$scope.get(false);
 			VK.callMethod("scrollWindow", 0, 600);
@@ -179,6 +226,6 @@ var controllers = {
 				
 			});
 		};
-		$scope.selectCat($scope.sections[0]);
+		$scope.selectSection($scope.sections[0]);
 	}
 }

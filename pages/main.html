@@ -1,13 +1,29 @@
-<div class="col-xs-12 header">
-	<h4 style="float:left" >{{current.title}}</h4>
-    <span><a class="text-center text-primary" target="_blank" href="//l33t.azurewebsites.net/snfr.php?vk_id={{user.id}}&ref=app3981889">Предложить идею</a></span>
-    <span ng-show="user.is_admin && !user.moderation"><a class="text-center text-success" target="_blank" href="" ng-click="moderation(true)">Модерирование</a></span>
-    <span ng-show="user.is_admin && user.moderation"><a class="text-center text-warning" target="_blank" href="" ng-click="moderation(false)">Обычный режим</a></span>
+<div class="header-container">
+    <div class="col-xs-12 header">
+    	<h4 style="float:left" >{{current.title}}</h4>
+        <span><a class="text-center text-primary" target="_blank" href="//l33t.azurewebsites.net/snfr.php?vk_id={{user.id}}&ref=app3981889">Отзыв или предложение</a></span>
+        <span ng-show="user.is_admin && !user.moderation"><a class="text-center text-success" target="_blank" href="" ng-click="moderation(true)">Модерирование</a></span>
+        <span ng-show="user.is_admin && user.moderation"><a class="text-center text-warning" target="_blank" href="" ng-click="moderation(false)">Обычный режим</a></span>
+    </div>
+    <div class="col-xs-12 ">
+        <div class="form-group form-search">
+    	    <input type="text" ng-model="search.$" type="text" class="" placeholder="Поиск в категории '{{current.title}}'">
+    	</div>
+        <div class="form-group form-create">
+    		<a href="" ng-click="box_open('create')" class="btn btn-default btn-block btn-sm">
+                <span class="ion-android-create"></span> 
+                Добавить объявление</a>
+    	</div>
+    </div>
 </div>
-<div class="col-xs-8 resizable-content" >
-	<div class="form-group">
-	    <input ng-model="search.$" type="text" class="form-control" placeholder="Поиск в категории '{{current.title}}'">
-	</div>
+<div class="menu-container">
+    <div ng-repeat="item in sections" ng-click="selectSection(sections[$index])" class="btn-menu-item selector-{{item.style}} {{item.size}} col-xs-3 {{item.id == current.id ? 'selected' : ''}}">
+       <p class="text-color-{{item.style}}">
+        <span class="ion-{{item.icon}}"></span>
+        {{item.title}}</p>
+    </div>
+</div>
+<div class="col-xs-12 resizable-content ads-content" >
     <alert type="success" ng-show="user.menu===false" close="user.menu=true" role="alert">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span>Вы можете добавить приложение в меню слева, для быстрого доступа</span>
@@ -15,25 +31,7 @@
     </alert>
     <p class="text-center" ng-show="!ads.length">Загрузка ...</p>
 	<p class="text-center" ng-show="ads.length && (current.items | filter:search).length == 0">Ничего не найдено</p>
-	<module-ad ng-repeat="item in current.items | filter:search" data="item" onfave="fave_callback" onremove="on_remove" edit="edit"></module-ad>
-</div>
-<div class="col-xs-4">
-	<div class="form-group">
-		<a href="" ng-click="box_open('create')" class="btn btn-primary btn-block btn-sm">Добавить объявление</a>
-	</div>
-	<ul class="list-group">
-		<a ng-repeat="section in sections" href="" ng-click="selectCat(section)" class="list-group-item">
-		     <span class="text-{{section.style}} glyphicon glyphicon-{{section.icon}}"></span>
-			 <b>{{section.title}}</b>
-		    <span class="label label-primary">{{section.items.length}}</span>
-	    </a>
-	</ul>
-	<ul class="list-group">
-	  <a ng-repeat="c in cats" href="" ng-click="selectCat(c)" class="list-group-item">
-		<span class="label label-primary">{{c.items.length}}</span>
-		{{c.title}}
-	  </a>
-	</ul>
+	<module-ad ng-repeat="item in current.items | filter:search | limitTo:loaded" data="item" onfave="fave_callback" onremove="on_remove" edit="edit"></module-ad>
 </div>
 <script type="text/ng-template" id="create">
     <div class="modal-header">

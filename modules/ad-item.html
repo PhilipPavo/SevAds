@@ -1,12 +1,16 @@
 <div ng-show="data.display" class="panel panel-default ad-item" ng-init="is_author=data.owner_id == viewer.id">
-  <div class="panel-heading">{{data.title ? data.title : "Объявление через сообщество"}} 
+  <div class="panel-heading">
+    <div class="pull-left">
+      <h5>{{data.title ? data.title : "Объявление через сообщество"}} </h5>
+    </div>
     <div class="pull-right" ng-show="is_author || viewer.moderation">
        <a ng-show="viewer.is_admin" ng-click="" href=""><span class="glyphicon glyphicon glyphicon-lock text-muted"></span></a>
        <a tooltip="Редактировать" tooltip-placement="top" tooltip-trigger="mouseenter" ng-click="open_edit()" href=""><span class="glyphicon glyphicon-pencil"></span></a>
        <a tooltip="Удалить" tooltip-placement="top" tooltip-trigger="mouseenter" ng-click="remove()" href=""><span class="glyphicon glyphicon-trash text-danger"></span></a>
     </div>
   </div>
-  <div class="panel-body"><span class="pre-text">{{data.text}}</span>
+  <div class="panel-body">
+    <span class="pre-text">{{data.text}}</span>
   <p><a href="//vk.com/wall{{data.source}}" target="blank_" ng-show="data.source">Перейти к записи</a></p>
   </div>
   <div class="panel-footer">

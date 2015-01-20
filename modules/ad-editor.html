@@ -1,9 +1,11 @@
-<div class="form-horizontal col-xs-6 col-xs-offset-3 center" role="form">
+<div class="form-horizontal col-xs-12" role="form">
   <div class="form-group">
     <input type="text" class="form-control" ng-model="data.title" placeholder="Заголовок объявления">
   </div>
   <div class="form-group">
-   <textarea class="form-control" rows="5" ng-model="data.text"></textarea>
+   <textarea ng-keydown="" class="form-control" rows="5" ng-model="data.text">
+	   
+   </textarea>
   </div>
   <div class="form-group">
 	  <div class="dropdown" is-open="isOpen">

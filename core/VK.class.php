@@ -1,7 +1,7 @@
 <?php
 	class VK{
 		public static $app_id = 4261581;
-		public static $secret = 'ywppYJoNtTWw3xyB1sh7';
+		public static $secret = '';
 		public static $api_version = '5.25';
 		public $token;
 		public function __construct($token){

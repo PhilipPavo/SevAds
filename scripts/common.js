@@ -1,6 +1,6 @@
 /*
 	Pavo Philip 
-	Catns
+	@Catns
 	
 	2014-2015
 
@@ -47,7 +47,7 @@ app.config(function($routeProvider) {
 });
 app.service('UTILS', function ($rootScope) {
 	this.setWindowHeight = function(h){
-		VK.callMethod("resizeWindow", 800, h);
+		VK.callMethod("resizeWindow", 650, h);
 	};
 	this.get_url_params = function(){
 		var query_obj = {};
@@ -155,7 +155,7 @@ app.directive('resizableContent', function($interval, UTILS) {
         },
         function(height) {
 			if(height < 960) height = 900;
-			UTILS.setWindowHeight(height + 60);
+			UTILS.setWindowHeight(height +400);
         });
     }
   };
