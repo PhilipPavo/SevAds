@@ -1,7 +1,7 @@
 <?php
 	$config = R::get('config');
 	$c = array(
-		"cats" => $config['ad_categories']
+		"tags" => $config['tags']
 	);
 	$this->addResponse('config', $c);
 ?>

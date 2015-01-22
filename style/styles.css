@@ -50,17 +50,46 @@ input, input[type="password"], input[type="search"] {
   max-width: 600px;
 }
 .panel .panel-heading{
-  height: 60px;
+  height: 50px;
   background-color: #fff;
+  border-bottom: none;
+  border-radius: 5px;
+}
+.ad-item .title{
+  max-width: 470px;
+  overflow: hidden;
+  height: 30px;
+}
+.ad-item .text{
+  font-size: 13px;
+}
+.ad-item .category-label{
+  width: 35px;
+  height: 35px;
+  vertical-align: middle;
+  text-align: center;
+  border-radius: 5px;
+  padding: 7px;
+  margin-top: 2px;
+  margin-left: -3px;
+  margin-right: 5px;
+  background-color: #f0f2f5;
 }
 .panel .panel-body{
     font-size: 12px;
 }
 .panel .panel-footer{
+  border-top: none;
   padding: 8px 10px;
-  min-height: 48px;
+  min-height: 65px;
   background-color: #fff;
+  vertical-align: middle;
+  border-radius: 5px;
 }
+.ad-item .actions{
+  padding: 8px;
+}
+
 .list-group a{
     padding: 5px 7px;
 }
@@ -68,13 +97,15 @@ input, input[type="password"], input[type="search"] {
   float:right;
 }
 .author-name{
-  font-size: 13px;
-  margin-bottom: -2px;
+  font-size: 15px;
+  margin-top: 15px;
+  float: left;
 }
 .author-avatar{
-  height: 30px;
-  width: 30px;
+  height: 50px;
+  width: 50px;
   margin-right: 3px;
+  border: 3px solid #ECEFF1;
 }
 
 .btn-menu-item{
@@ -168,14 +199,6 @@ input, input[type="password"], input[type="search"] {
   width: 200px;
   display: inline-block;
 }
-.form-create .btn{
-  border: none;
-  color: #fff;
-  background-color:#8C9EFF;
-  border-radius: 3px;
-  font-size: 13px;
-  max-height: 34px;
-}
 
 .ads-content{
   margin-top: 15px;
@@ -217,4 +240,124 @@ button:hover{
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
+}
+
+
+.ad-item.editor .title{
+  width: 500px;
+  font-size: 15px;
+  font-weight: lighter;
+}
+.ad-item.editor .category-label:hover{
+  cursor: pointer;
+}
+.ad-item.editor .text{
+  border: none;
+  resize: none;
+  width: 100%;
+  overflow: hidden;
+  margin-left: -15px;
+  min-height: 150px;
+}
+.ad-item.editor .btn-save{
+  margin-top: 12px;
+  margin-right: 5px;
+}
+
+.btn-light{
+  border: none;
+  color: #fff;
+  background-color:#8C9EFF;
+  border-radius: 3px;
+  font-size: 13px;
+  max-height: 34px;
+}
+.btn-light:hover{
+   color: #fff;
+   background-color: #7986CB;
+}
+.btn-light:focus{
+   color: #fff;
+   background-color:#8C9EFF;
+}
+.btn-icon{
+  padding: 0;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  vertical-align: center;
+  text-decoration: none;
+}
+.btn-icon.btn-icon-circle{
+  border: 1px solid;
+  border-radius: 15px;
+  color: #fff;
+}
+.btn-icon-cyan{
+  color: #00BCD4;
+}
+.btn-icon-blue{
+  color: #3F51B5;
+}
+.btn-icon-green{
+  color: #4CAF50;
+}
+.btn-icon-yellow{
+  color: #FFEB3B;
+}
+.btn-icon-red{
+  color: #F44336;
+}
+.btn-icon-purple{
+  color: #673AB7;
+}
+.btn-icon-blue.btn-icon-circle{
+  background-color: #3F51B5;
+  border-color: #3F51B5; 
+}
+.btn-icon-green.btn-icon-circle{
+  background-color: #4CAF50;
+  border-color: #4CAF50; 
+}
+.btn-icon.btn-circle:hover{
+  color: #fff;
+}
+.btn-icon:hover{
+  cursor: pointer;
+}
+.btn-icon span{
+  font-size: 25px;
+  vertical-align: middle;
+}
+
+.image-upload{
+  background-color: #E8EAF6;
+  border-radius: 3px;
+  vertical-align: middle;
+  text-align: center;
+  min-height: 150px;  
+}
+.image-upload span{
+  font-size: 75px;
+  color: #fff;
+}
+.image-upload a{
+  font-size: 13px;
+}
+
+.tags-container{
+  margin-bottom: 5px;
+}
+.tag{
+  margin: 2px;
+  font-size: 11px;
+  display: inline-block;
+  background: #E8EAF6;
+  padding: 3px;
+  border-radius: 3px;
+  color:#3F51B5;
+}
+.tag:hover{
+  cursor: pointer;
 }

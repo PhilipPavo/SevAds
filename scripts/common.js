@@ -20,6 +20,9 @@ var run = function($rootScope, UTILS, AJAX, $location, $routeParams) {
 				else d.user.is_admin = false;
 				$rootScope.user = d.user;
 				console.log(d.user);
+				VK.api('users.get', {fields: "photo_50, sex", https: 1}, function(data){
+					$rootScope.user.profile = data.response[0];
+				});
 				VK.api('account.getAppPermissions', {}, function(data){
 					var r =data.response & 256;
 					$rootScope.user.menu = !!r;
@@ -136,14 +139,42 @@ app.directive('moduleAdEditor', function() {
     return {
         templateUrl: 'modules/ad-editor.html',
         restrict: 'E',
-        scope: { data: '=' },
+        scope: { data: '=', close: '=',categories: '=', tags: '=',save: "=" },
         controller: function($rootScope, $scope, $element, $attrs, $transclude, AJAX) {
-        	$scope.cats = $rootScope.config.cats;
-			$scope.setCat = function(c){
-				$scope.data.category = c;
+			$scope.addTag = function(i){
+				if($scope.data.tags.indexOf($scope.tags[i].title) !==-1) return;
+				$scope.data.tags.push($scope.tags[i].title);	
+			};
+			$scope.removeTag = function(i){
+				$scope.data.tags.splice(i, 1);
+			}
+			$scope.changeCategory = function(c){
+				c = $scope.categories[c];
+				$scope.data.category_data = {
+					icon: c.icon,
+					style: c.style,
+					title: c.title,
+					id: c.id
+				};
 			};
 		}
     }
+});
+app.directive('autoHeight', function($interval) {
+  return {
+    restrict: 'C',
+    link: function($scope, element) {
+		 $scope.$watch(
+        function() {
+			var scrollHeight = element[0].scrollHeight;
+			element[0].style.height =  scrollHeight + "px"; 
+			return element[0].scrollHeight;
+        },
+        function(height) {
+			console.log(height);
+        });
+    }
+  };
 });
 app.directive('resizableContent', function($interval, UTILS) {
   return {

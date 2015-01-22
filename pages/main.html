@@ -10,11 +10,18 @@
     	    <input type="text" ng-model="search.$" type="text" class="" placeholder="Поиск в категории '{{current.title}}'">
     	</div>
         <div class="form-group form-create">
-    		<a href="" ng-click="box_open('create')" class="btn btn-default btn-block btn-sm">
+    		<a href="" ng-click="create()" class="btn btn-light btn-block btn-sm">
                 <span class="ion-android-create"></span> 
                 Добавить объявление</a>
     	</div>
     </div>
+</div>
+<div class="col-xs-12">
+     <module-ad-editor data="editor.data" close="editor.close" categories="categories" tags="tags" save="editor.save" ng-show="editor.opened"></module-ad-editor>
+    <alert type="info" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span>Приложение находится на доработке, некоторые функции могут быть недоступны. Пока объявление можно добавить через <a href="https://vk.com/sevnotice" target="_blank">сообщество</a> и оно будет автоматически импортировано в приложение.</span>
+    </alert>
 </div>
 <div class="menu-container">
     <div ng-repeat="item in sections" ng-click="selectSection(sections[$index])" class="btn-menu-item selector-{{item.style}} {{item.size}} col-xs-3 {{item.id == current.id ? 'selected' : ''}}">

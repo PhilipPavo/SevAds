@@ -1,22 +1,58 @@
-<div class="form-horizontal col-xs-12" role="form">
-  <div class="form-group">
-    <input type="text" class="form-control" ng-model="data.title" placeholder="Заголовок объявления">
-  </div>
-  <div class="form-group">
-   <textarea ng-keydown="" class="form-control" rows="5" ng-model="data.text">
-	   
-   </textarea>
-  </div>
-  <div class="form-group">
-	  <div class="dropdown" is-open="isOpen">
-			<button class="btn btn-primary btn-block btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">{{cats[data.category].title}}
-				<span class="caret"></span>
-			</button>
-			<ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
-				<li role="presentation">
-					<a role="menuitem" tabindex="-1" ng-repeat="cat in cats" ng-click="setCat($index)" href="">{{cat.title}}</a>
+<div class="panel panel-default ad-item editor" ng-init="is_author=data.owner_id == viewer.id">
+  <div class="panel-heading">
+     <div class="pull-left dropdown" is-open="isOpen">
+      <h4 data-toggle="dropdown" aria-expanded="true" class="dropdown-toggle category-label">
+         <span class="ion-{{data.category_data.icon}} text-color-{{data.category_data.style}}"></span>
+      </h4>
+      <ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
+  			<li role="presentation">
+					<a role="menuitem" tabindex="-1" ng-repeat="item in categories" ng-click="changeCategory(item.id)" href=""><span class="text-color-{{item.style}} ion-{{item.icon}}"></span> {{item.title}}</a>
 				</li>
 			</ul>
-		</div>
+    </div>
+    <div class="title pull-left">
+     <input type="text" class="title" ng-model="data.title" placeholder="Заголовок объявления">
+    </div>
+    <div class="pull-right " ng-show="is_author || viewer.moderation">
+        <span ng-click="close()" 
+          tooltip="Отмена" tooltip-placement="top" tooltip-trigger="mouseenter" 
+          class="btn-icon btn-icon-purple">
+          <span class="ion-android-close"></span>
+        </span>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="tags-container">
+       <span class="tag" ng-repeat="tag in data.tags"><span class="ion-pound"></span> {{tag}} 
+          <a ng-click="removeTag($index)" href="" class="ion-android-close"></a>
+       </span>
+       <div class="dropdown" isOpen="isOpen">
+         <span class="tag dropdown-toggle" data-toggle="dropdown" aria-expanded="true">+ Добавить тег</span>
+        <ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
+    			<li role="presentation">
+  					<a role="menuitem" tabindex="-1" ng-repeat="tag in tags track by $index" ng-click="addTag($index)" href=""><span class="ion-pound text-color-blue"></span> {{tag.title.toLowerCase()}}</a>
+  				</li>
+  			</ul>
+       </div>
+    </div>
+    <div class="col-xs-8">
+       <textarea placeholder="Текст объявления" ng-keydown="updHeight(this)" class="autoHeight text" rows="5" ng-model="data.text">
+	       
+       </textarea>
+    </div>
+   <div class="col-xs-4 image-upload">
+     <span class="ion-image"></span>
+     <p><a href="">Загрузить изображение</a></p>
+   </div>
+  </div>
+  <div class="panel-footer">
+      <a class="media-left pull-left" target="_blank" ng-href="//vk.com/id{{data.profile.id}}">
+       <img class="img-circle author-avatar" ng-src="{{data.profile.photo_50}}"  />
+      </a>
+      <h6 class="media-heading author-name"><a ng-href="//vk.com/id{{data.profile.id}}" target="_blank">{{data.profile.first_name}} {{data.profile.last_name}}</a></h6>
+    <div class="pull-right">
+    		<a href="" ng-click="save(data)" class="btn btn-light btn-sm btn-save">
+                <span class="ion-android-create"></span> 
+                 Сохранить</a>
   </div>
 </div>

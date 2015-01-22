@@ -10,7 +10,8 @@ var controllers = {
 		$scope.ads = [];
 		$scope.profiles = [];
 		$scope.loaded = 10;
-		$scope.cats = $rootScope.config.cats;
+		$scope.tags = $rootScope.config.tags;
+		console.log($scope.tags);
 		$scope.moderation = function(v){
 			$rootScope.user.moderation = v;
 		};
@@ -32,7 +33,9 @@ var controllers = {
 		$scope.menu_add = function(){
 			VK.callMethod('showSettingsBox', 256);
 		};
-		
+		$scope.categories = {
+			
+		};
 		$scope.sections = [
 			{
 				title: "Продам",
@@ -40,7 +43,7 @@ var controllers = {
 				f: function(item){
 					return item.category == 'sell';
 				},
-				icon: 'social-usd-outline',
+				icon: 'social-usd',
 				style: 'green',
 				size: 'big',
 				selected: false
@@ -51,7 +54,7 @@ var controllers = {
 				f: function(item){
 					return item.category == 'buy';
 				},
-				icon: 'ios-cart-outline',
+				icon: 'ios-cart',
 				style: 'blue',
 				size: 'big',
 				selected: false
@@ -101,11 +104,22 @@ var controllers = {
 				selected: false
 			}
 		];
+		for(var i = 0; i < $scope.sections.length; i++){
+			$scope.categories[$scope.sections[i].id] = $scope.sections[i];
+		}
 		$scope.init = function(ads, profiles){
 			if(ads) $scope.ads = ads;
 			if(profiles) $scope.profiles = profiles;
 			$scope.current.items = [];
 			for(var j = 0; j < $scope.ads.length; j++){
+				var c = $scope.categories[$scope.ads[j].category];
+				$scope.ads[j].category_data = {
+					style: c.style,
+					icon: c.icon,
+					title: c.title,
+					id: c.id
+				}
+				$scope.ads[j].tags = $scope.ads[j].tags ? angular.fromJson($scope.ads[j].tags) : [];
 				$scope.ads[j].profile = $scope.ads[j].owner_id != 0 ? $scope.profiles['id' + $scope.ads[j].owner_id] : $scope.profiles.anonymous;
 				if($scope.current.f($scope.ads[j]))
 					$scope.current.items.push($scope.ads[j]);
@@ -152,7 +166,58 @@ var controllers = {
 			$scope.loaded = 10;
 			$scope.current = c;
 			$scope.get(false);
-			VK.callMethod("scrollWindow", 0, 600);
+			//VK.callMethod("scrollWindow", 0, 600);
+		};
+		
+		$scope.editor = {
+			opened: false,
+			data: {
+				
+			},
+			save: function(data){
+				if(data.title.length < 4 || data.text.length < 8) return;
+				AJAX.post('ads.create', {
+					title: data.title,
+					text: data.text,
+					category: data.category_data.id,
+					tags: angular.toJson(data.tags)
+				}, function(d){
+					$scope.editor.close();
+					$scope.get(false);
+				});
+			},
+			open: function(data){
+				if($scope.editor.opened) return;
+				if(data){
+					$scope.editor.data = data;
+				}else{
+					//var c = $scope.current;
+					var c = $scope.categories['other'];
+					$scope.editor.data = {
+						category_data: {
+							icon: c.icon,
+							style: c.style,
+							title: c.title,
+							id: c.id
+						},
+						owner_id: $scope.user.id,
+						profile: $scope.user.profile,
+						tags: [],
+						text: "",
+						title: ""
+					};
+					$scope.editor.data.profile = $scope.user.profile;
+				}
+				$scope.editor.opened = true;
+			},
+			close: function(){
+				$scope.editor.opened = false;
+				console.log($scope.editor.data_empty);
+				$scope.editor.data = $scope.editor.data_empty;
+			}
+		};
+		$scope.create = function(){
+			$scope.editor.open();
 		};
 		$scope.boxes = {
 			create: {
@@ -208,6 +273,7 @@ var controllers = {
 				}
 			}
 		}
+		
 		$scope.box_open = function(box, p) {
 			var instance = $modal.open({
 				templateUrl: box,
