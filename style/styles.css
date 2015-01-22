@@ -201,6 +201,7 @@ input, input[type="password"], input[type="search"] {
 }
 
 .ads-content{
+  min-height: 300px;
   margin-top: 15px;
 }
 
@@ -360,4 +361,29 @@ button:hover{
 }
 .tag:hover{
   cursor: pointer;
+}
+
+.copyright{
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+.copyright p{
+  margin-bottom: 0px;
+}
+.copyright .github-link a{
+  font-weight: lighter;
+  font-size: 12px;
+  text-decoration: none;
+}
+.copyright .github-link a span{
+  font-size: 17px;
+}
+.copyright .group-link a{
+  font-size: 13px;
+  text-decoration: none;
+  font-weight: lighter;
+}
+.copyright .title {
+  font-weight: lighter;
+  font-size: 13px;
 }

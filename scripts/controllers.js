@@ -5,8 +5,7 @@ var controllers = {
 	},
 	main: function($rootScope, $scope, AJAX, $route, $modal){
 		$scope.user = $rootScope.user;
-		$scope.current = {
-		};
+		$scope.current = {};
 		$scope.ads = [];
 		$scope.profiles = [];
 		$scope.loaded = 10;
@@ -131,7 +130,7 @@ var controllers = {
 				owner_id: owner ? owner: 0
 			};
 			AJAX.post('ads.get', p, function(d){
-				VK.api('users.get', {fields: 'photo_50,sex', https: 1, user_ids: d.ids.join(',')}, function(users){
+				VK.api('users.get', {fields: 'photo_100,sex', https: 1, user_ids: d.ids.join(',')}, function(users){
 					users = users.response;
 					for(var i = 0; i < users.length; i++){
 						$scope.profiles['id'+users[i].id] = users[i];

@@ -18,9 +18,9 @@
 </div>
 <div class="col-xs-12">
      <module-ad-editor data="editor.data" close="editor.close" categories="categories" tags="tags" save="editor.save" ng-show="editor.opened"></module-ad-editor>
-    <alert type="info" role="alert">
+    <alert type="info" role="alert" ng-init="opened = true" ng-show="opened" close="opened=false">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      <span>Приложение находится на доработке, некоторые функции могут быть недоступны. Пока объявление можно добавить через <a href="https://vk.com/sevnotice" target="_blank">сообщество</a> и оно будет автоматически импортировано в приложение.</span>
+      <span>Приложение находится на доработке, некоторые функции могут быть недоступны.</span>
     </alert>
 </div>
 <div class="menu-container">
@@ -30,7 +30,7 @@
         {{item.title}}</p>
     </div>
 </div>
-<div class="col-xs-12 resizable-content ads-content" >
+<div class="col-xs-12 ads-content" >
     <alert type="success" ng-show="user.menu===false" close="user.menu=true" role="alert">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span>Вы можете добавить приложение в меню слева, для быстрого доступа</span>
@@ -40,27 +40,3 @@
 	<p class="text-center" ng-show="ads.length && (current.items | filter:search).length == 0">Ничего не найдено</p>
 	<module-ad ng-repeat="item in current.items | filter:search | limitTo:loaded" data="item" onfave="fave_callback" onremove="on_remove" edit="edit"></module-ad>
 </div>
-<script type="text/ng-template" id="create">
-    <div class="modal-header">
-        <h4 class="modal-title">Создание объявления </h4>
-    </div>
-    <div class="modal-body row">
-        <module-ad-editor data="ad"></module-ad-editor>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-primary" ng-click="ok()">Создать</button>
-        <button class="btn btn-sm btn-default" ng-click="cancel()">Отмена</button>
-    </div>
-</script>
-<script type="text/ng-template" id="edit">
-    <div class="modal-header">
-        <h4 class="modal-title">Редактирование объявления </h4>
-    </div>
-    <div class="modal-body row">
-        <module-ad-editor data="ad"></module-ad-editor>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-sm btn-primary" ng-click="ok()">Сохранить</button>
-        <button class="btn btn-sm btn-default" ng-click="cancel()">Отмена</button>
-    </div>
-</script>

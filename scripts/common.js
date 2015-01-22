@@ -20,7 +20,7 @@ var run = function($rootScope, UTILS, AJAX, $location, $routeParams) {
 				else d.user.is_admin = false;
 				$rootScope.user = d.user;
 				console.log(d.user);
-				VK.api('users.get', {fields: "photo_50, sex", https: 1}, function(data){
+				VK.api('users.get', {fields: "photo_100, sex", https: 1}, function(data){
 					$rootScope.user.profile = data.response[0];
 				});
 				VK.api('account.getAppPermissions', {}, function(data){
@@ -185,8 +185,8 @@ app.directive('resizableContent', function($interval, UTILS) {
           return element[0].clientHeight;
         },
         function(height) {
-			if(height < 960) height = 900;
-			UTILS.setWindowHeight(height +400);
+			//if(height < 960) height = 900;
+			UTILS.setWindowHeight(height + 70);
         });
     }
   };
