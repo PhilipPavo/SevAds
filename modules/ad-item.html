@@ -1,4 +1,4 @@
-<div ng-show="data.display" class="panel panel-default ad-item" ng-init="is_author=data.owner_id == viewer.id">
+<div class="panel panel-default ad-item" ng-init="is_author=data.owner_id == viewer.id">
   <div class="panel-heading">
     <div class="pull-left">
       <h4 class="category-label text-color-{{data.category_data.style}}">
@@ -9,7 +9,7 @@
       <h5>{{data.title ? data.title : "Объявление через сообщество"}} </h5>
     </div>
     <div class="pull-right " ng-show="is_author || viewer.moderation">
-        <span ng-click="" 
+        <span ng-click="edit(data)" 
           tooltip="Редактировать" tooltip-placement="top" tooltip-trigger="mouseenter" 
           class="btn-icon btn-icon-cyan">
           <span class="ion-ios-compose-outline"></span>

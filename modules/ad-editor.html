@@ -1,19 +1,19 @@
 <div class="panel panel-default ad-item editor" ng-init="is_author=data.owner_id == viewer.id">
   <div class="panel-heading">
-     <div class="pull-left dropdown" is-open="isOpen">
+     <div class="pull-left dropdown" is-open="isOpenC">
       <h4 data-toggle="dropdown" aria-expanded="true" class="dropdown-toggle category-label">
          <span class="ion-{{data.category_data.icon}} text-color-{{data.category_data.style}}"></span>
       </h4>
-      <ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
+      <ul ng-click="isOpenC = false" class="dropdown-menu" role="menu">
   			<li role="presentation">
-					<a role="menuitem" tabindex="-1" ng-repeat="item in categories" ng-click="changeCategory(item.id)" href=""><span class="text-color-{{item.style}} ion-{{item.icon}}"></span> {{item.title}}</a>
+					<a role="menuitem" tabindex="-1" ng-repeat="item in categories" ng-hide="!item.is_category" ng-click="changeCategory(item.id)" href=""><span class="text-color-{{item.style}} ion-{{item.icon}}"></span> {{item.title}}</a>
 				</li>
 			</ul>
     </div>
     <div class="title pull-left">
      <input type="text" class="title" ng-model="data.title" placeholder="Заголовок объявления">
     </div>
-    <div class="pull-right " ng-show="is_author || viewer.moderation">
+    <div class="pull-right ">
         <span ng-click="close()" 
           tooltip="Отмена" tooltip-placement="top" tooltip-trigger="mouseenter" 
           class="btn-icon btn-icon-purple">
@@ -26,9 +26,9 @@
        <span class="tag" ng-repeat="tag in data.tags"><span class="ion-pound"></span> {{tag}} 
           <a ng-click="removeTag($index)" href="" class="ion-android-close"></a>
        </span>
-       <div class="dropdown" isOpen="isOpen">
+       <div class="dropdown" isOpen="isOpenT">
          <span class="tag dropdown-toggle" data-toggle="dropdown" aria-expanded="true">+ Добавить тег</span>
-        <ul ng-click="isOpen = false" class="dropdown-menu" role="menu">
+        <ul ng-click="isOpenT = false" class="dropdown-menu" role="menu">
     			<li role="presentation">
   					<a role="menuitem" tabindex="-1" ng-repeat="tag in tags track by $index" ng-click="addTag($index)" href=""><span class="ion-pound text-color-blue"></span> {{tag.title.toLowerCase()}}</a>
   				</li>

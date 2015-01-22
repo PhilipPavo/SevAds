@@ -17,10 +17,15 @@
     </div>
 </div>
 <div class="col-xs-12">
-     <module-ad-editor data="editor.data" close="editor.close" categories="categories" tags="tags" save="editor.save" ng-show="editor.opened"></module-ad-editor>
-    <alert type="info" role="alert" ng-init="opened = true" ng-show="opened" close="opened=false">
+     <module-ad-editor data="editor.data" close="editor.close" categories="categories" tags="tags" save="editor.save" ng-show="editor.opened && !editor.edit"></module-ad-editor>
+    <!--<alert type="info" role="alert" ng-init="opened = true" ng-show="opened" close="opened=false">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span>Приложение находится на доработке, некоторые функции могут быть недоступны.</span>
+    </alert> -->
+    <alert type="success" ng-show="user.menu===false" close="user.menu=true" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span>Вы можете добавить приложение в меню слева, для быстрого доступа</span>
+      <a href="" ng-click="menu_add()">Добавить</a>
     </alert>
 </div>
 <div class="menu-container">
@@ -31,12 +36,24 @@
     </div>
 </div>
 <div class="col-xs-12 ads-content" >
-    <alert type="success" ng-show="user.menu===false" close="user.menu=true" role="alert">
-      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      <span>Вы можете добавить приложение в меню слева, для быстрого доступа</span>
-      <a href="" ng-click="menu_add()">Добавить</a>
-    </alert>
-    <p class="text-center" ng-show="!ads.length">Загрузка ...</p>
-	<p class="text-center" ng-show="ads.length && (current.items | filter:search).length == 0">Ничего не найдено</p>
-	<module-ad ng-repeat="item in current.items | filter:search | limitTo:loaded" data="item" onfave="fave_callback" onremove="on_remove" edit="edit"></module-ad>
+    <p class="text-center loading" ng-show="!ads.length && !current.items.length">Загрузка ...</p>
+     <p class="text-center loading" ng-show="!ads.length && current.items.length">Обновление ...</p>
+	<p class="text-center text-color-blue text-light" ng-show="ads.length && (current.items | filter:search).length == 0">Ничего не найдено</span></p>
+	<div ng-repeat="item in current.items | filter:search | limitTo:loaded">
+        <module-ad 
+            ng-hide="editor.opened && editor.data.id === item.id"
+            data="item" 
+            onfave="fave_callback" 
+            onremove="on_remove" 
+            edit="editor.open">
+        </module-ad>
+        <module-ad-editor 
+            ng-show="editor.opened && editor.data.id === item.id"
+            data="item"
+            close="editor.close"
+            categories="categories"
+            tags="tags"
+            save="editor.save">
+        </module-ad-editor>
+    </div>    
 </div>

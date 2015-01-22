@@ -39,6 +39,7 @@ var controllers = {
 			{
 				title: "Продам",
 				id: 'sell',
+				is_category: true,
 				f: function(item){
 					return item.category == 'sell';
 				},
@@ -50,6 +51,7 @@ var controllers = {
 			{
 				title: "Куплю",
 				id: 'buy',
+				is_category: true,
 				f: function(item){
 					return item.category == 'buy';
 				},
@@ -61,6 +63,7 @@ var controllers = {
 			{
 				title: "Услуги",
 				id: 'services',
+				is_category: true,
 				f: function(item){
 					return item.category == 'services';
 				},
@@ -72,6 +75,7 @@ var controllers = {
 			{
 				title: "Вакансии",
 				id: 'job',
+				is_category: true,
 				f: function(item){
 					return item.category == 'job';
 				},
@@ -83,6 +87,7 @@ var controllers = {
 			{
 				title: "Ищу ...",
 				id: 'find',
+				is_category: true,
 				f: function(item){
 					return item.category == 'find';
 				},
@@ -94,12 +99,46 @@ var controllers = {
 			{
 				title: "Другое",
 				id: 'other',
+				is_category: true,
 				f: function(item){
 					return item.category == 'other';
 				},
 				icon: 'android-more-horizontal',
 				style: 'cyan',
 				size: 'medium',
+				selected: false
+			},{
+				title: "Все объявления",
+				id: 'all',
+				f: function(item){
+					return true;
+				},
+				icon: 'ios-list-outline',
+				style: 'blue',
+				size: 'mini',
+				selected: false
+			},
+			{
+				title: "Мои закладки",
+				id: 'favorites',
+				f: function(item){
+					return item.is_fave;
+				},
+				icon: 'android-favorite',
+				style: 'red',
+				size: 'mini',
+				selected: false
+			},
+			{
+				title: "Мои объявления",
+				id: 'my',
+				f: function(item){
+					if(!item.profile) return false;
+					return item.profile.id == $rootScope.user.id;
+				},
+				icon: 'ios-compose-outline',
+				style: 'green',
+				size: 'mini',
 				selected: false
 			}
 		];
@@ -158,39 +197,51 @@ var controllers = {
 			$scope.init();
 		};
 		$scope.edit = function(ad){
-			VK.callMethod("scrollWindow", 0);
-			$scope.box_open('edit', {ad: ad});	
+			
 		};
 		$scope.selectSection = function(c){
 			$scope.loaded = 10;
 			$scope.current = c;
+			$scope.ads = [];
 			$scope.get(false);
 			//VK.callMethod("scrollWindow", 0, 600);
 		};
 		
 		$scope.editor = {
 			opened: false,
-			data: {
-				
-			},
+			edit: false,
 			save: function(data){
 				if(data.title.length < 4 || data.text.length < 8) return;
-				AJAX.post('ads.create', {
-					title: data.title,
-					text: data.text,
-					category: data.category_data.id,
-					tags: angular.toJson(data.tags)
-				}, function(d){
-					$scope.editor.close();
-					$scope.get(false);
-				});
+				if(!$scope.editor.edit) 
+					AJAX.post('ads.create', {
+						title: data.title,
+						text: data.text,
+						category: data.category_data.id,
+						tags: angular.toJson(data.tags)
+					}, function(d){
+						$scope.editor.close();
+						$scope.get(false);
+					});
+				else 
+					AJAX.post('ads.edit', {
+						ad_id: data.id,
+						title: data.title,
+						text: data.text,
+						category: data.category_data.id,
+						tags: angular.toJson(data.tags)
+					}, function(d){
+						$scope.editor.close();
+						//$scope.get(false);
+					});
 			},
 			open: function(data){
-				if($scope.editor.opened) return;
+				//if($scope.editor.opened && !data) return;
 				if(data){
 					$scope.editor.data = data;
+					$scope.editor.edit = true;
 				}else{
 					//var c = $scope.current;
+					$scope.editor.edit = false;
 					var c = $scope.categories['other'];
 					$scope.editor.data = {
 						category_data: {
@@ -291,6 +342,6 @@ var controllers = {
 				
 			});
 		};
-		$scope.selectSection($scope.sections[0]);
+		$scope.selectSection($scope.categories['all']);
 	}
 }
