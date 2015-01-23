@@ -20,6 +20,11 @@ var run = function($rootScope, UTILS, AJAX, $location, $routeParams) {
 				else d.user.is_admin = false;
 				$rootScope.user = d.user;
 				console.log(d.user);
+				VK.api('friends.getAppUsers', {}, function(data){
+					VK.api('users.get', {user_ids: data.response.join(','), fields: "", https: 1}, function(data){
+						console.log(data);
+					});
+				});
 				VK.api('users.get', {fields: "photo_100, sex", https: 1}, function(data){
 					$rootScope.user.profile = data.response[0];
 				});
@@ -101,7 +106,7 @@ app.service('AJAX', function ($http, $rootScope, UTILS) {
   			}).success(function(d){c(d['response'])});
 	}
 });
-app.directive('moduleAd', function() {
+app.directive('moduleDa', function() {
     return {
         templateUrl: 'modules/ad-item.html',
         restrict: 'E',
@@ -135,7 +140,7 @@ app.directive('moduleAd', function() {
 		}
     }
 });
-app.directive('moduleAdEditor', function() {
+app.directive('moduleDaEditor', function() {
     return {
         templateUrl: 'modules/ad-editor.html',
         restrict: 'E',

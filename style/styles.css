@@ -41,11 +41,11 @@ input, input[type="password"], input[type="search"] {
 .center{
   text-align: center;
 }
-.panel.ad-item{
+.panel.da-item{
    border: none;
    border-radius: 5px;
 }
-.panel.ad-item h5{
+.panel.da-item h5{
   margin-left: 10px;
   max-width: 600px;
 }
@@ -55,15 +55,15 @@ input, input[type="password"], input[type="search"] {
   border-bottom: none;
   border-radius: 5px;
 }
-.ad-item .title{
+.da-item .title{
   max-width: 470px;
   overflow: hidden;
   height: 30px;
 }
-.ad-item .text{
+.da-item .text{
   font-size: 13px;
 }
-.ad-item .category-label{
+.da-item .category-label{
   width: 35px;
   height: 35px;
   vertical-align: middle;
@@ -86,7 +86,7 @@ input, input[type="password"], input[type="search"] {
   vertical-align: middle;
   border-radius: 5px;
 }
-.ad-item .actions{
+.da-item .actions{
   padding: 8px;
 }
 
@@ -209,7 +209,7 @@ input, input[type="password"], input[type="search"] {
   display: inline-block;
 }
 
-.ads-content{
+.das-content{
   min-height: 250px;
   margin-top: 15px;
 }
@@ -253,15 +253,15 @@ button:hover{
 }
 
 
-.ad-item.editor .title{
+.da-item.editor .title{
   width: 500px;
   font-size: 15px;
   font-weight: lighter;
 }
-.ad-item.editor .category-label:hover{
+.da-item.editor .category-label:hover{
   cursor: pointer;
 }
-.ad-item.editor .text{
+.da-item.editor .text{
   border: none;
   resize: none;
   width: 100%;
@@ -269,7 +269,7 @@ button:hover{
   margin-left: -15px;
   min-height: 150px;
 }
-.ad-item.editor .btn-save{
+.da-item.editor .btn-save{
   margin-top: 12px;
   margin-right: 5px;
 }

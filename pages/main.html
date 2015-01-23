@@ -17,7 +17,7 @@
     </div>
 </div>
 <div class="col-xs-12">
-     <module-ad-editor data="editor.data" close="editor.close" categories="categories" tags="tags" save="editor.save" ng-show="editor.opened && !editor.edit"></module-ad-editor>
+     <module-da-editor data="editor.data" close="editor.close" categories="categories" tags="tags" save="editor.save" ng-show="editor.opened && !editor.edit"></module-da-editor>
     <!--<alert type="info" role="alert" ng-init="opened = true" ng-show="opened" close="opened=false">
       <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
       <span>Приложение находится на доработке, некоторые функции могут быть недоступны.</span>
@@ -35,25 +35,25 @@
         {{item.title}}</p>
     </div>
 </div>
-<div class="col-xs-12 ads-content" >
-    <p class="text-center loading" ng-show="!ads.length && !current.items.length">Загрузка ...</p>
+<div class="col-xs-12 das-content" >
+    <p class="text-center loading" ng-show="is_loading && !current.items.length">Загрузка ...</p>
      <p class="text-center loading" ng-show="!ads.length && current.items.length">Обновление ...</p>
 	<p class="text-center text-color-blue text-light" ng-show="ads.length && (current.items | filter:search).length == 0">Ничего не найдено</span></p>
 	<div ng-repeat="item in current.items | filter:search | limitTo:loaded">
-        <module-ad 
+        <module-da 
             ng-hide="editor.opened && editor.data.id === item.id"
             data="item" 
             onfave="fave_callback" 
             onremove="on_remove" 
             edit="editor.open">
-        </module-ad>
-        <module-ad-editor 
+        </module-da>
+        <module-da-editor 
             ng-show="editor.opened && editor.data.id === item.id"
             data="item"
             close="editor.close"
             categories="categories"
             tags="tags"
             save="editor.save">
-        </module-ad-editor>
+        </module-da-editor>
     </div>    
 </div>

@@ -9,21 +9,19 @@ var controllers = {
 		$scope.ads = [];
 		$scope.profiles = [];
 		$scope.loaded = 10;
+		$scope.is_loading = false;
 		$scope.tags = $rootScope.config.tags;
-		console.log($scope.tags);
+		
 		$scope.moderation = function(v){
 			$rootScope.user.moderation = v;
 		};
-		VK.addCallback('onScroll', function(scrollTop, windowHeight){
-				
-		});
 		VK.addCallback('onSettingsChanged', function(r){
-			console.log(r);
 			$scope.user.menu = !!(r & 256);
 			$scope.$apply();
 		});
 		VK.addCallback('onScroll', function(scrollTop, windowHeight){
 			if((windowHeight + scrollTop) > window.innerHeight){
+				if( !$scope.current.items || $scope.loaded > $scope.current.items.length) return;
 				$scope.loaded += 10;
 				$scope.$apply();
 			}
@@ -163,10 +161,10 @@ var controllers = {
 					$scope.current.items.push($scope.ads[j]);
 			}
 		};
-		$scope.get = function(owner){
+		$scope.get = function(owner, category){
 			var p = {
-				category: -1,
-				owner_id: owner ? owner: 0
+				category: category ? category : false,
+				owner_id: owner ? owner : false,
 			};
 			AJAX.post('ads.get', p, function(d){
 				VK.api('users.get', {fields: 'photo_100,sex', https: 1, user_ids: d.ids.join(',')}, function(users){
@@ -180,6 +178,7 @@ var controllers = {
 						"photo_50" : "style/images/camera_50.gif"	
 					};
 					$scope.init(d.ads);
+					$scope.is_loading = false;
 					$scope.$apply();
 				});
 			});
@@ -200,10 +199,12 @@ var controllers = {
 			
 		};
 		$scope.selectSection = function(c){
+			$scope.is_loading = true;
 			$scope.loaded = 10;
 			$scope.current = c;
 			$scope.ads = [];
-			$scope.get(false);
+			$scope.current.items = [];
+			$scope.get(c.id === 'my' ? $scope.user.id : false, c.is_category ? c.id : false);
 			//VK.callMethod("scrollWindow", 0, 600);
 		};
 		
@@ -268,79 +269,6 @@ var controllers = {
 		};
 		$scope.create = function(){
 			$scope.editor.open();
-		};
-		$scope.boxes = {
-			create: {
-				size: '',
-				controller: function($scope, $modalInstance, data, $sce) {
-					$scope.ad = data.ad;
-					
-					$scope.ok = function() {
-						if($scope.ad.title.length < 4 || $scope.ad.text.length < 8) return;
-						AJAX.post('ads.create', $scope.ad, function(d){
-							console.log(d);
-						});
-						$modalInstance.close($scope.ad);
-					};
-	
-					$scope.cancel = function() {
-						$modalInstance.dismiss('cancel');
-					};
-				},
-				on_open: function(){
-					return {ad: {
-						title: "",
-						text: "",
-						category: 0
-					}};
-				},
-				on_close: function(response){
-					console.log(response);
-				}
-			},
-			edit: {
-				size: '',
-				controller: function($scope, $modalInstance, data, $sce) {
-					$scope.ad = data.ad;
-					
-					$scope.ok = function() {
-						if($scope.ad.title.length < 4 || $scope.ad.text.length < 8) return;
-						var d = $scope.ad;
-						d.ad_id = d.id;
-						AJAX.post('ads.edit', d, function(d){
-							console.log(d);
-						});
-						$modalInstance.close($scope.ad);
-					};
-	
-					$scope.cancel = function() {
-						$modalInstance.dismiss('cancel');
-					};
-				},
-				on_open: false,
-				on_close: function(response){
-					console.log(response);
-				}
-			}
-		}
-		
-		$scope.box_open = function(box, p) {
-			var instance = $modal.open({
-				templateUrl: box,
-				controller: $scope.boxes[box].controller,
-				size: $scope.boxes[box].size,
-				resolve: {
-					data: $scope.boxes[box].on_open ? $scope.boxes[box].on_open : function () {
-						return p;
-					}
-				}
-			});
-			instance.result.then(function(r) {
-				$scope.boxes[box].on_close(r);
-				$scope.get(false);
-			}, function() {
-				
-			});
 		};
 		$scope.selectSection($scope.categories['all']);
 	}

@@ -1,4 +1,4 @@
-<div class="panel panel-default ad-item editor" ng-init="is_author=data.owner_id == viewer.id">
+<div class="panel panel-default da-item editor" ng-init="is_author=data.owner_id == viewer.id">
   <div class="panel-heading">
      <div class="pull-left dropdown" is-open="isOpenC">
       <h4 data-toggle="dropdown" aria-expanded="true" class="dropdown-toggle category-label">
@@ -8,7 +8,7 @@
   			<li role="presentation">
 					<a role="menuitem" tabindex="-1" ng-repeat="item in categories" ng-hide="!item.is_category" ng-click="changeCategory(item.id)" href=""><span class="text-color-{{item.style}} ion-{{item.icon}}"></span> {{item.title}}</a>
 				</li>
-			</ul>
+			</ul> 
     </div>
     <div class="title pull-left">
      <input type="text" class="title" ng-model="data.title" placeholder="Заголовок объявления">

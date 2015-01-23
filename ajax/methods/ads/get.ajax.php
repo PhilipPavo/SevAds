@@ -3,7 +3,7 @@
 	$p = array(
 		"display" => 1
 	);
-	if($in['category'] !== -1) $p['category'] = $in['category'];
+	if($in['category']) $p['category'] = $in['category'];
 	if($in['owner_id']) $p['owner_id'] = $in['owner_id'];
 	$r = R::get('db')->getRows('ads', $p, array(
 		'order' => 'id',
